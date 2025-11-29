@@ -30,15 +30,15 @@ The goal is to build a repeatable system for training models at scale while lear
 
 ## Structure
 
-TODO - make it look like ⬇️
+TODO - make it look something like ⬇️
 
-<!-- ```
-├── infra/              # Docker, deployment scripts
-├── nanogpt/            # Core training code (based on Karpathy's nanoGPT)
-├── config/             # Training configurations
+```
+├── models/             # Different models/code for them
 ├── data/               # Dataset preparation scripts
-└── experiments/        # Results and checkpoints (synced to GCS)
-``` -->
+├── config/             # Training configurations
+├── infra/              # Docker, deployment scripts
+└── experiments/        # Scripts & possibly results
+```
 
 ## Why Public?
 
