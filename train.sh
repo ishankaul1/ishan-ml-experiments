@@ -26,8 +26,8 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --dataset|-d) DATASET="$2"; shift 2 ;;
     --config|-c) CONFIG="$2"; shift 2 ;;
-    --experiment-folder) EXPERIMENT_FOLDER="$2"; shift 2 ;;
-    --output-dir) OUTPUT_DIR="$2"; shift 2 ;;
+    --experiment-folder|--experiment_folder) EXPERIMENT_FOLDER="$2"; shift 2 ;;
+    --output-dir|--output_dir) OUTPUT_DIR="$2"; shift 2 ;;
     --help|-h) usage; exit 0 ;;
     *) EXTRA_ARGS+=("$1"); shift ;;  # collect everything else
   esac
@@ -61,6 +61,12 @@ if [[ -z "$OUTPUT_DIR" ]]; then
   echo "[train.sh] No output directory provided. Using default: $OUTPUT_DIR"
 fi
 
+mkdir -p "$OUTPUT_DIR"
+
+
+EXTRA_ARGS+=("--out_dir=$OUTPUT_DIR")
+
+
 # Check if dataset prepare.py exists, else crash
 if [[ -f "data/${DATASET}/prepare.py" ]]; then
   echo "[train.sh] Preparing dataset: $DATASET"
@@ -92,6 +98,8 @@ echo "[train.sh] python train.py $CONFIG ${EXTRA_ARGS[@]}"
 python train.py "$CONFIG" "${EXTRA_ARGS[@]}"
 
 # Final sync after training completes
-echo "[train.sh] Training complete. Running final sync..."
+echo "[train.sh] Training complete. Running 'gcloud storage rsync $OUTPUT_DIR gs://${GCS_BUCKET}/${EXPERIMENT_FOLDER}/ --recursive'"
+
 gcloud storage rsync "$OUTPUT_DIR" "gs://${GCS_BUCKET}/${EXPERIMENT_FOLDER}/" --recursive
+
 echo "[train.sh] Final sync complete. Checkpoints saved to gs://${GCS_BUCKET}/${EXPERIMENT_FOLDER}"
