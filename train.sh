@@ -24,14 +24,19 @@ EXTRA_ARGS=()
 # Parse all arguments
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    --dataset=*|-d=*) DATASET="${1#*=}"; shift ;;
     --dataset|-d) DATASET="$2"; shift 2 ;;
+    --config=*|-c=*) CONFIG="${1#*=}"; shift ;;
     --config|-c) CONFIG="$2"; shift 2 ;;
+    --experiment-folder=*|--experiment_folder=*) EXPERIMENT_FOLDER="${1#*=}"; shift ;;
     --experiment-folder|--experiment_folder) EXPERIMENT_FOLDER="$2"; shift 2 ;;
+    --output-dir=*|--output_dir=*) OUTPUT_DIR="${1#*=}"; shift ;;
     --output-dir|--output_dir) OUTPUT_DIR="$2"; shift 2 ;;
     --help|-h) usage; exit 0 ;;
     *) EXTRA_ARGS+=("$1"); shift ;;  # collect everything else
   esac
 done
+
 
 # Validate required args
 if [[ -z "$DATASET" || -z "$CONFIG" ]]; then
