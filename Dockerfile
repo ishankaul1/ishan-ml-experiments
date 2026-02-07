@@ -31,7 +31,8 @@ RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.
     && apt-get update -y \
     && apt-get install google-cloud-cli -y
 
-# Copy service account credentials and set env var (private docker repository; this is okay)
+# I KNOW THAT THIS IS BAD, PRIVATE DOCKER REPO AT LEAST
+# TODO move off of runpod
 COPY gcs-service-account-key.json /app/
 ENV GOOGLE_APPLICATION_CREDENTIALS=/app/gcs-service-account-key.json
 
