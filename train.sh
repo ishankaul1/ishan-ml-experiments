@@ -82,6 +82,13 @@ else
 fi
 
 
+# Activate service account if credentials are available
+if [[ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" ]] && [[ -f "${GOOGLE_APPLICATION_CREDENTIALS}" ]]; then
+  echo "[train.sh] Activating GCS service account..."
+  gcloud auth activate-service-account --key-file="${GOOGLE_APPLICATION_CREDENTIALS}"
+fi
+
+
 # Background sync loop - runs every 5 minutes
 echo "[train.sh] Starting background sync to gs://${GCS_BUCKET}/${EXPERIMENT_FOLDER}"
 
