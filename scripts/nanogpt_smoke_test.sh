@@ -17,7 +17,6 @@ cmd=(
   --gpuType "$GPU_TYPE"
   --templateId "$TEMPLATE_ID"
   --imageName "$IMAGE"
-  --dataCenterId
   --secureCloud
 )
 
