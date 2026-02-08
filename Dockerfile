@@ -54,7 +54,7 @@ ENV DATASET="shakespeare_char"
 ENV CONFIG="config/train_shakespeare_char.py"
 ENV DEVICE="cuda"
 ENV WANDB_MODE="disabled"
-ENV GCS_BUCKET="ai-experiments-479020"
+ENV GCS_BUCKET="ai_ml_experiments"
 
 # Create workspace directory for persistent data only
 # TODO - get rid of this; force output_dir to exist in train.sh instead
