@@ -106,6 +106,14 @@ print("DEBUG: Config loaded, starting setup", flush=True)
 print("RUNNING WITH CONFIG:", config, flush=True)
 
 
+if eval_interval >= max_iters:
+    print(
+        "WARNING: eval_interval {eval_interval} > max_iters {max_iters}. Model will never be evaluated or checkpointed. Exiting."
+    )
+    import sys
+    sys.exit(1)
+
+
 # various inits, derived attributes, I/O setup
 ddp = int(os.environ.get("RANK", -1)) != -1  # is this a ddp run?
 if ddp:
@@ -384,7 +392,9 @@ while True:
                     "config": config,
                 }
                 print(f"saving checkpoint to {out_dir}", flush=True)
-                torch.save(checkpoint, os.path.join(out_dir, "ckpt.pt"))
+                torch.save(
+                    checkpoint, os.path.join(out_dir, f"ckpt_iter_{local_iter_num}.pt")
+                )
 
     print(
         f"DEBUG: Eval interval done, about to break if eval_only {eval_only}",
